@@ -10,7 +10,9 @@
 
 
   <button matButton>
-    <mat-icon aria-hidden="false" aria-label="Cart" fontIcon="shopping_cart"></mat-icon>
+    <mat-icon [matBadge]="cart.totaItems()"
+    [matBadgeHidden]="cart.totaItems() === 0" matBadgeDescription="Número de itens no carrinho"
+    aria-hidden="false" aria-label="Cart" fontIcon="shopping_cart"></mat-icon>
   </button>
 
 </mat-toolbar>

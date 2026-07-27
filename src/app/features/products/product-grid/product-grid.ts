@@ -1,5 +1,6 @@
+import { Cart } from './../../../core/services/cart';
 import { Product } from './../../../core/services/product';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +15,8 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class ProductGrid {
   protected readonly searchTerm = signal('');
+
+  private readonly Cart = inject(Cart);
 
   protected readonly products = signal<Product[]>([
     {
@@ -50,6 +53,10 @@ export class ProductGrid {
         product.description.toLocaleLowerCase().includes(term),
     );
   });
+
+  protected onAddToCard(product: Product) {
+    this.Cart.addToCart(product);
+  }
 
   protected clearSearch() {
     this.searchTerm.set('');
