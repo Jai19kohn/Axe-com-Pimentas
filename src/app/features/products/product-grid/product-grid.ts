@@ -1,5 +1,5 @@
 import { Cart } from './../../../core/services/cart';
-import { Product } from './../../../core/services/product';
+import { Product } from '../product';
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
