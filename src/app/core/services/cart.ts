@@ -1,19 +1,25 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Product } from '../../features/products/product';
-import { CardItem } from '../../shared/models/card.item';
+import { CartItem } from '../../shared/models/card.item';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Cart {
-  private readonly cartItems = signal<CardItem[]>([]);
+  private readonly cartItemsSignal = signal<CartItem[]>([]);
 
-  readonly totaItems = computed(() =>
-    this.cartItems().reduce((total, item) => total + item.quantity, 0),
+  readonly items = this.cartItemsSignal.asReadonly();
+
+  readonly totalItems = computed(() =>
+    this.items().reduce((total, item) => total + item.quantity, 0),
+  );
+
+  readonly totalPrice = computed(() =>
+    this.items().reduce((total, item) => total + item.product.price * item.quantity, 0),
   );
 
   addToCart(product: Product) {
-    this.cartItems.update((items) => {
+    this.cartItemsSignal.update((items) => {
       const existingItem = items.find((item) => item.product.id === product.id);
 
       if (existingItem) {
@@ -24,5 +30,13 @@ export class Cart {
 
       return [...items, { product, quantity: 1 }];
     });
+  }
+
+  removeFromCart(productId: number) {
+    this.cartItemsSignal.update((items) => items.filter((item) => item.product.id !== productId));
+  }
+
+  clear() {
+    this.cartItemsSignal.set([]);
   }
 }
