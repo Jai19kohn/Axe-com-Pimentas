@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline" class="search-field">
+  <mat-label>Pesquisar Produtos</mat-label>
+  <input
+    matInput
+    [ngModel]="value()"
+    (ngModelChange)="onInput($event)"
+    [placeholder]="placeholder()"
+  />
+  @if (value()) {
+    <button matSuffix mat-icon-button type="button" aria-label="Limpar busca" (click)="clear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</mat-form-field>

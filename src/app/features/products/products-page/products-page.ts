@@ -1,11 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Cart } from '../../../core/services/cart';
-import { ProductService } from '../../../core/services/product-service';
+import { ProductService } from '../product-service';
 import { Product } from '../product';
+import { Cart } from '../../cart/cart';
+import { ProductGrid } from '../product-grid/product-grid';
+import { ProductSearch } from '../product-search/product-search';
 
 @Component({
   selector: 'app-products-page',
-  imports: [],
+  imports: [ProductGrid, ProductSearch],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })

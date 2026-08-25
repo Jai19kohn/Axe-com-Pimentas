@@ -1,0 +1,3 @@
+<app-product-search [value]="searchTerm()" (valueChange)="onSearchChange($event)" />
+
+<app-product-grid [products]="filteredProducts()" (addToCart)="onAddToCart($event)" />

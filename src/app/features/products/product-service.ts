@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Product } from '../../features/products/product';
+import { Product } from './product';
 
 const MOCK_PRODUCTS: Product[] = [
   {

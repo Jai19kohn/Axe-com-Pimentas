@@ -1,26 +1,10 @@
-<div class="products-container">
-
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Pesquisar Produtos</mat-label>
-    <input  matInput [(ngModel)]="searchTerm" placeholder="e.g. headphones" />
-  </mat-form-field>
-
-  <p class="search-preview">
-    Pesquisa: {{searchTerm()}}
-  </p>
-
-  <div class="products-grid">
-    @for (product of filteredProducts(); track product.id ){
-      <app-product-card [product]="product"
-
-      (addToCart)="onAddToCard($event)"/>
-    } @empty {
-      <div class="empty-state">
-        <mat-icon>inventory_2</mat-icon>
-        <p>Nenhum produto corresponde à sua pesquisa.</p>
-      </div>
-    }
-  </div>
+<div class="products-grid">
+  @for (product of products(); track product.id) {
+    <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+  } @empty {
+    <div class="empty-state">
+      <mat-icon>inventory_2</mat-icon>
+      <p>{{ emptyMessage() }}</p>
+    </div>
+  }
 </div>
-
-

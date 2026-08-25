@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Cart } from '../../../core/services/cart';
 import { MatBadgeModule } from '@angular/material/badge';
+import { Cart } from '../../../features/cart/cart';
 
 @Component({
   selector: 'app-navbar',
