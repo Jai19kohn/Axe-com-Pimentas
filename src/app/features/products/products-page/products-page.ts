@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ProductService } from '../product-service';
 import { Product } from '../product';
-import { Cart } from '../../cart/cart';
+import { CartService } from '../../cart/cart-service';
 import { ProductGrid } from '../product-grid/product-grid';
 import { ProductSearch } from '../product-search/product-search';
 
@@ -12,7 +12,7 @@ import { ProductSearch } from '../product-search/product-search';
   styleUrl: './products-page.scss',
 })
 export class ProductsPage {
-  private readonly cart = inject(Cart);
+  private readonly cart = inject(CartService);
   private readonly productService = inject(ProductService);
 
   protected readonly searchTerm = signal('');

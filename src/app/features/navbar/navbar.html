@@ -1,0 +1,23 @@
+<mat-toolbar class="main-navbar">
+  <a matButton routerLink="/" aria-label="Ir para a página inicial">
+    <mat-icon aria-hidden="true" fontIcon="store"></mat-icon>
+  </a>
+
+  <span class="branding">Loja teste</span>
+
+  <span class="spacer"></span>
+
+  <a matButton routerLink="/">Produtos</a>
+
+
+  <a matButton routerLink="/cart" aria-label="Abrir carrinho">
+    <mat-icon
+      [matBadge]="cart.totalItems()"
+      [matBadgeHidden]="cart.totalItems() === 0"
+      matBadgeDescription="Número de itens no carrinho"
+      aria-hidden="true"
+      fontIcon="shopping_cart"
+    ></mat-icon>
+  </a>
+
+</mat-toolbar>

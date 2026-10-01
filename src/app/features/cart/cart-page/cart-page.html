@@ -1,0 +1,84 @@
+<main class="cart-page">
+  <header class="cart-page__header">
+    <h1 id="cart-title">Seu carrinho</h1>
+  </header>
+
+  @if (cartService.items().length > 0) {
+    <div class="cart-layout" aria-labelledby="cart-title">
+      <ul class="cart-items" aria-label="Produtos no carrinho">
+        @for (item of cartService.items(); track item.product.id) {
+          <li class="cart-item">
+            <div class="cart-item__details">
+              <h2>{{ item.product.name }}</h2>
+              <p class="cart-item__unit-price">
+                @if (item.product.originalPrice !== undefined && item.product.originalPrice > item.product.price) {
+                  <span class="cart-item__original-price">
+                    {{ currencyFormatter.format(item.product.originalPrice) }}
+                  </span>
+                }
+                <span>{{ currencyFormatter.format(item.product.price) }} por unidade</span>
+              </p>
+              @if (cartService.itemSavings(item) > 0) {
+                <p class="cart-item__discount">
+                  Desconto neste item:
+                  {{ currencyFormatter.format(cartService.itemSavings(item)) }}
+                </p>
+              }
+            </div>
+
+            <div class="cart-item__actions">
+              <div class="quantity-control" [attr.aria-label]="'Quantidade de ' + item.product.name">
+                <button
+                  type="button"
+                  [attr.aria-label]="'Diminuir quantidade de ' + item.product.name"
+                  (click)="cartService.decreaseQuantity(item.product.id)"
+                >
+                  −
+                </button>
+                <span aria-live="polite">{{ item.quantity }}</span>
+                <button
+                  type="button"
+                  [attr.aria-label]="'Aumentar quantidade de ' + item.product.name"
+                  (click)="cartService.increaseQuantity(item.product.id)"
+                >
+                  +
+                </button>
+              </div>
+
+              <p class="cart-item__subtotal">
+                {{ currencyFormatter.format(item.product.price * item.quantity) }}
+              </p>
+
+              <button
+                class="remove-button"
+                type="button"
+                [attr.aria-label]="'Remover ' + item.product.name + ' do carrinho'"
+                (click)="cartService.removeFromCart(item.product.id)"
+              >
+                Remover
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+
+      <aside class="cart-summary" aria-label="Resumo do carrinho">
+        <h2>Resumo</h2>
+        <p>
+          <span>Itens</span>
+          <span>{{ cartService.totalItems() }}</span>
+        </p>
+        <p class="cart-summary__savings">
+          <span>Você economizou</span>
+          <strong>{{ currencyFormatter.format(cartService.totalSavings()) }}</strong>
+        </p>
+        <p class="cart-summary__total">
+          <span>Total</span>
+          <strong class="cart-total__value">{{ currencyFormatter.format(cartService.totalPrice()) }}</strong>
+        </p>
+      </aside>
+    </div>
+  } @else {
+    <output class="cart-empty">Seu carrinho está vazio.</output>
+  }
+</main>
