@@ -1,1 +1,199 @@
-<p>checkout works!</p>
+<main class="checkout-page">
+	@if (confirmation(); as order) {
+		<section class="checkout-confirmation" aria-labelledby="confirmation-title">
+			<p class="checkout-eyebrow">Pedido registrado</p>
+			<h1 id="confirmation-title">Obrigado, {{ order.customerName }}.</h1>
+			<p>Seu pedido demonstrativo foi recebido.</p>
+			<dl class="confirmation-details">
+				<div>
+					<dt>Referência</dt>
+					<dd>{{ order.reference }}</dd>
+				</div>
+				<div>
+					<dt>Itens</dt>
+					<dd>{{ order.itemCount }}</dd>
+				</div>
+				<div>
+					<dt>Pagamento escolhido</dt>
+					<dd>{{ order.paymentMethod }} (simulado)</dd>
+				</div>
+				<div>
+					<dt>Economia</dt>
+					<dd>{{ currencyFormatter.format(order.totalSavings) }}</dd>
+				</div>
+				<div class="confirmation-details__total">
+					<dt>Total dos produtos</dt>
+					<dd>{{ currencyFormatter.format(order.totalPrice) }}</dd>
+				</div>
+			</dl>
+			<p class="checkout-notice">Nenhum pagamento foi processado. O frete será combinado.</p>
+			<a class="checkout-primary-link" routerLink="/">Voltar à loja</a>
+		</section>
+	} @else if (cartService.items().length === 0) {
+		<section class="checkout-empty" aria-labelledby="checkout-title">
+			<h1 id="checkout-title">Finalizar pedido</h1>
+			<p>Seu carrinho está vazio.</p>
+			<a class="checkout-primary-link" routerLink="/">Ver produtos</a>
+		</section>
+	} @else {
+		<header class="checkout-header">
+			<p class="checkout-eyebrow">Última etapa</p>
+			<h1 id="checkout-title">Finalizar pedido</h1>
+		</header>
+
+		<div class="checkout-layout">
+			<form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()" novalidate>
+				<section class="checkout-section" aria-labelledby="contact-title">
+					<h2 id="contact-title">Contato e entrega</h2>
+
+					<div class="form-field">
+						<label for="full-name">Nome completo</label>
+						<input id="full-name" type="text" formControlName="fullName" autocomplete="name" />
+						@if (checkoutForm.controls.fullName.touched && checkoutForm.controls.fullName.invalid) {
+							<small class="field-error">
+								@if (checkoutForm.controls.fullName.errors?.['required']) {
+									Informe seu nome.
+								} @else {
+									Digite pelo menos 2 caracteres.
+								}
+							</small>
+						}
+					</div>
+
+					<div class="form-grid">
+						<div class="form-field">
+							<label for="email">E-mail</label>
+							<input
+								id="email"
+								type="email"
+								formControlName="email"
+								autocomplete="email"
+								autocapitalize="none"
+								spellcheck="false"
+								(input)="normalizeEmail($event)"
+							/>
+							@if (checkoutForm.controls.email.touched && checkoutForm.controls.email.invalid) {
+								<small class="field-error">Informe um e-mail válido.</small>
+							}
+						</div>
+
+						<div class="form-field">
+							<label for="phone">Telefone</label>
+							<input
+								id="phone"
+								type="tel"
+								formControlName="phone"
+								autocomplete="tel"
+								inputmode="tel"
+								mask="(00) 0000-0000||(00) 00000-0000"
+								[dropSpecialCharacters]="false"
+								placeholder="(11) 99999-9999"
+							/>
+							@if (checkoutForm.controls.phone.touched && checkoutForm.controls.phone.invalid) {
+								<small class="field-error">Informe um telefone válido.</small>
+							}
+						</div>
+
+						<div class="form-field form-field--short">
+							<label for="postal-code">CEP</label>
+							<input
+								id="postal-code"
+								type="text"
+								formControlName="postalCode"
+								autocomplete="postal-code"
+								inputmode="numeric"
+								mask="00000-000"
+								[dropSpecialCharacters]="false"
+								placeholder="00000-000"
+							/>
+							@if (checkoutForm.controls.postalCode.touched && checkoutForm.controls.postalCode.invalid) {
+								<small class="field-error">Informe um CEP válido.</small>
+							}
+						</div>
+
+						<div class="form-field">
+							<label for="street">Endereço</label>
+							<input id="street" type="text" formControlName="street" autocomplete="address-line1" />
+							@if (checkoutForm.controls.street.touched && checkoutForm.controls.street.invalid) {
+								<small class="field-error">Informe o endereço.</small>
+							}
+						</div>
+
+						<div class="form-field form-field--short">
+							<label for="address-number">Número</label>
+							<input id="address-number" type="text" formControlName="addressNumber" />
+							@if (checkoutForm.controls.addressNumber.touched && checkoutForm.controls.addressNumber.invalid) {
+								<small class="field-error">Informe o número.</small>
+							}
+						</div>
+
+						<div class="form-field">
+							<label for="city">Cidade</label>
+							<input id="city" type="text" formControlName="city" autocomplete="address-level2" />
+							@if (checkoutForm.controls.city.touched && checkoutForm.controls.city.invalid) {
+								<small class="field-error">Informe a cidade.</small>
+							}
+						</div>
+
+						<div class="form-field form-field--short">
+							<label for="state">Estado</label>
+							<select id="state" formControlName="state" autocomplete="address-level1">
+								<option value="" disabled>Selecione seu estado</option>
+								@for (state of states; track state.code) {
+									<option [value]="state.code">{{ state.name }} ({{ state.code }})</option>
+								}
+							</select>
+							@if (checkoutForm.controls.state.touched && checkoutForm.controls.state.invalid) {
+								<small class="field-error">Selecione seu estado.</small>
+							}
+						</div>
+					</div>
+				</section>
+
+				<fieldset class="checkout-section payment-section">
+					<legend>Forma de pagamento</legend>
+					<label class="payment-option">
+						<input type="radio" formControlName="paymentMethod" value="pix" />
+						<span>Pix</span>
+					</label>
+					<label class="payment-option">
+						<input type="radio" formControlName="paymentMethod" value="card" />
+						<span>Cartão</span>
+					</label>
+					<p class="checkout-notice">Escolha demonstrativa. Nenhum pagamento será processado.</p>
+				</fieldset>
+
+				<button class="checkout-submit" type="submit">Confirmar pedido</button>
+			</form>
+
+			<aside class="order-summary" aria-labelledby="summary-title">
+				<h2 id="summary-title">Resumo do pedido</h2>
+				<ul class="summary-items">
+					@for (item of cartService.items(); track item.product.id) {
+						<li>
+							<span>{{ item.quantity }} × {{ item.product.name }}</span>
+							<strong>{{ currencyFormatter.format(item.product.price * item.quantity) }}</strong>
+						</li>
+					}
+				</ul>
+				<p>
+					<span>Produtos</span>
+					<span>{{ currencyFormatter.format(cartService.totalPrice()) }}</span>
+				</p>
+				<p class="summary-savings">
+					<span>Você economiza</span>
+					<strong>{{ currencyFormatter.format(cartService.totalSavings()) }}</strong>
+				</p>
+				<p>
+					<span>Frete</span>
+					<span>A combinar</span>
+				</p>
+				<p class="summary-total">
+					<span>Total dos produtos</span>
+					<strong>{{ currencyFormatter.format(cartService.totalPrice()) }}</strong>
+				</p>
+				<p class="checkout-notice">O frete não está incluído neste total.</p>
+			</aside>
+		</div>
+	}
+</main>

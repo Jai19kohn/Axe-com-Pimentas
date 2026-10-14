@@ -163,6 +163,25 @@
 	font-variant-numeric: tabular-nums;
 }
 
+.checkout-link {
+	display: inline-flex;
+	min-height: 2.75rem;
+	align-items: center;
+	justify-content: center;
+	margin-top: 0.5rem;
+	padding: 0.65rem 1rem;
+	border: 1px solid var(--cart-accent);
+	border-radius: 2px;
+	background: var(--cart-accent);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.checkout-link:hover {
+	background: #1e5339;
+}
+
 .cart-empty {
 	display: block;
 	margin: 0;

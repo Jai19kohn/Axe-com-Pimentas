@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Product } from '../../products/product';
 import { CartService } from '../cart-service';
@@ -19,6 +20,7 @@ describe('CartPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CartPage],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartPage);

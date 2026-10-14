@@ -1,3 +1,19 @@
-<app-product-search [value]="searchTerm()" (valueChange)="onSearchChange($event)" />
+<div class="catalog-filters">
+	<app-product-search [value]="searchTerm()" (valueChange)="onSearchChange($event)" />
+
+	<label class="category-filter" for="category-filter">
+		<span>Categoria</span>
+		<select
+			id="category-filter"
+			[value]="selectedCategory()"
+			(change)="onCategoryChange($event)"
+		>
+			<option value="">Todas as categorias</option>
+			@for (category of categories; track category.id) {
+				<option [value]="category.id">{{ category.label }}</option>
+			}
+		</select>
+	</label>
+</div>
 
 <app-product-grid [products]="filteredProducts()" (addToCart)="onAddToCart($event)" />

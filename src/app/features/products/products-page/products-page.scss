@@ -1,0 +1,37 @@
+.catalog-filters {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.35fr);
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.category-filter {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.category-filter select {
+	width: 100%;
+	min-height: 3.5rem;
+	padding: 0 0.75rem;
+	border: 1px solid #aeb8af;
+	border-radius: 4px;
+	background: #fff;
+	color: inherit;
+	font: inherit;
+}
+
+.category-filter select:focus-visible {
+	outline: 2px solid #276849;
+	outline-offset: 1px;
+}
+
+@media (max-width: 640px) {
+	.catalog-filters {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

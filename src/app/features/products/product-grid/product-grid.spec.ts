@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ProductGrid } from './product-grid';
 
@@ -13,6 +14,7 @@ describe('ProductGrid', () => {
 
     fixture = TestBed.createComponent(ProductGrid);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('products', []);
     await fixture.whenStable();
   });
 

@@ -76,9 +76,11 @@
           <span>Total</span>
           <strong class="cart-total__value">{{ currencyFormatter.format(cartService.totalPrice()) }}</strong>
         </p>
+        <a class="checkout-link" routerLink="/checkout">Finalizar compra</a>
       </aside>
     </div>
   } @else {
     <output class="cart-empty">Seu carrinho está vazio.</output>
+    <a class="checkout-link" routerLink="/">Ver produtos</a>
   }
 </main>

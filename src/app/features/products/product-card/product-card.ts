@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 import { Product } from '../../../features/products/product';
 
 @Component({
   selector: 'app-product-card',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })

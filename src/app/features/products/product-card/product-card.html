@@ -21,6 +21,7 @@
   </mat-card-content>
 
   <mat-card-actions>
+    <a matButton [routerLink]="['/products', product().id]">Ver detalhes</a>
     <button matButton (click)="onAddToCart()">{{ addButtonLabel() }}</button>
   </mat-card-actions>
 </mat-card>

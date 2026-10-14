@@ -1,1 +1,45 @@
-<p>product-details works!</p>
+<main class="product-details-page">
+	<a class="back-link" routerLink="/">Voltar aos produtos</a>
+
+	@if (product(); as currentProduct) {
+		<div class="product-details-layout">
+			<section class="product-information" aria-labelledby="product-title">
+				<p class="product-eyebrow">Detalhes do produto</p>
+				<h1 id="product-title">{{ currentProduct.name }}</h1>
+				<p class="product-description">{{ currentProduct.description }}</p>
+			</section>
+
+			<aside class="purchase-panel" aria-label="Comprar produto">
+				@if (currentProduct.originalPrice && savingsFor(currentProduct) > 0) {
+					<p class="sale-label">Oferta</p>
+					<p class="original-price">
+						De {{ currencyFormatter.format(currentProduct.originalPrice) }}
+					</p>
+					<p class="savings-amount">
+						Você economiza {{ currencyFormatter.format(savingsFor(currentProduct)) }}
+					</p>
+				}
+
+				<p class="current-price">{{ currencyFormatter.format(currentProduct.price) }}</p>
+				<p class="purchase-note">Preço por unidade</p>
+
+				<button class="add-to-cart-button" type="button" (click)="addToCart(currentProduct)">
+					Adicionar ao carrinho
+				</button>
+
+				@if (addedToCart() === currentProduct.id) {
+					<output class="cart-feedback">
+						Produto adicionado.
+						<a routerLink="/cart">Ver carrinho</a>
+					</output>
+				}
+			</aside>
+		</div>
+	} @else {
+		<section class="product-not-found" aria-labelledby="not-found-title">
+			<h1 id="not-found-title">Produto não encontrado</h1>
+			<p>Este produto não está disponível no catálogo.</p>
+			<a class="back-link" routerLink="/">Voltar à loja</a>
+		</section>
+	}
+</main>

@@ -9,6 +9,7 @@ const MOCK_PRODUCTS: Product[] = [
       'High-quality wireless headphones with noise cancellation and premium sound quality.',
     price: 199.99,
     originalPrice: 249.99,
+    categoryId: 'audio',
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ const MOCK_PRODUCTS: Product[] = [
     description:
       'Track your fitness goals with this advanced smartwatch featuring heart rate monitoring.',
     price: 299.99,
+    categoryId: 'wearables',
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ const MOCK_PRODUCTS: Product[] = [
     description: 'Compact speaker with powerful bass and 12-hour battery life.',
     price: 79.99,
     originalPrice: 99.99,
+    categoryId: 'audio',
   },
 ];
 

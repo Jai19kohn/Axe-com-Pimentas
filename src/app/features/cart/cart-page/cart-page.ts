@@ -1,9 +1,10 @@
 import { CartService } from '../cart-service';
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cart-page.html',
   styleUrl: './cart-page.scss',
 })
