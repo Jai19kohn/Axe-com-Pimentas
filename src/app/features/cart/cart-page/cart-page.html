@@ -11,7 +11,7 @@
             <div class="cart-item__details">
               <h2>{{ item.product.name }}</h2>
               <p class="cart-item__unit-price">
-                @if (item.product.originalPrice !== undefined && item.product.originalPrice > item.product.price) {
+                @if (item.product.originalPrice != null && item.product.originalPrice > item.product.price) {
                   <span class="cart-item__original-price">
                     {{ currencyFormatter.format(item.product.originalPrice) }}
                   </span>

@@ -14,12 +14,20 @@ import { ProductSearch } from '../product-search/product-search';
 })
 export class ProductsPage {
   private readonly cart = inject(CartService);
-  private readonly productService = inject(ProductService);
+  protected readonly productService = inject(ProductService);
   private readonly categoryService = inject(Category);
 
   protected readonly searchTerm = signal('');
   protected readonly selectedCategory = signal<ProductCategoryId | ''>('');
-  protected readonly categories = this.categoryService.categories;
+  protected readonly categories = computed(() => {
+    const categoryIds = new Set(
+      this.productService
+        .products()
+        .map((product) => product.categoryId)
+        .filter((id): id is string => Boolean(id)),
+    );
+    return [...categoryIds].sort().map((id) => ({ id, label: this.categoryService.labelFor(id) }));
+  });
 
   protected readonly filteredProducts = computed(() => {
     const term = this.searchTerm().toLocaleLowerCase().trim();
@@ -47,5 +55,9 @@ export class ProductsPage {
 
   protected onAddToCart(product: Product) {
     this.cart.addToCart(product);
+  }
+
+  protected loadProducts(): void {
+    this.productService.loadProducts();
   }
 }

@@ -1,8 +1,11 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { BehaviorSubject } from 'rxjs';
 import { CartService } from '../../cart/cart-service';
+import { environment } from '../../../../environments/environment';
 
 import { ProductDetails } from './product-details';
 
@@ -10,6 +13,7 @@ describe('ProductDetails', () => {
   let component: ProductDetails;
   let fixture: ComponentFixture<ProductDetails>;
   let cartService: CartService;
+  let httpTestingController: HttpTestingController;
   let routeParameters: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
 
   beforeEach(async () => {
@@ -26,12 +30,26 @@ describe('ProductDetails', () => {
             snapshot: { paramMap: routeParameters.value },
           },
         },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 
+    httpTestingController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ProductDetails);
     component = fixture.componentInstance;
     cartService = TestBed.inject(CartService);
+    httpTestingController.expectOne(`${environment.apiUrl}/products`).flush([
+      {
+        id: 1,
+        name: 'Premium Wireless Headphones',
+        description: 'High-quality wireless headphones with noise cancellation.',
+        price: 199.99,
+        originalPrice: 249.99,
+        categoryId: 'audio',
+        fulfillmentMode: 'READY_TO_SHIP',
+      },
+    ]);
     await fixture.whenStable();
   });
 

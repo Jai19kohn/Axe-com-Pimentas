@@ -13,7 +13,7 @@ import { ProductService } from '../product-service';
 })
 export class ProductDetails {
   private readonly route = inject(ActivatedRoute);
-  private readonly productService = inject(ProductService);
+  protected readonly productService = inject(ProductService);
   private readonly cartService = inject(CartService);
   private readonly routeParameters = toSignal(this.route.paramMap, {
     initialValue: this.route.snapshot.paramMap,
@@ -36,5 +36,9 @@ export class ProductDetails {
   protected addToCart(product: Product): void {
     this.cartService.addToCart(product);
     this.addedToCart.set(product.id);
+  }
+
+  protected loadProducts(): void {
+    this.productService.loadProducts();
   }
 }

@@ -6,6 +6,24 @@
 	margin-bottom: 1rem;
 }
 
+.catalog-status,
+.catalog-error {
+	margin: 1.5rem 0;
+	text-align: center;
+}
+
+.catalog-error button {
+	min-height: 2.75rem;
+	padding: 0.5rem 1rem;
+	border: 1px solid #276849;
+	border-radius: 2px;
+	background: #276849;
+	color: #fff;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
 .category-filter {
 	display: flex;
 	flex-direction: column;

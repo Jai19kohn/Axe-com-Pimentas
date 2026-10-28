@@ -1,7 +1,14 @@
 <main class="product-details-page">
 	<a class="back-link" routerLink="/">Voltar aos produtos</a>
 
-	@if (product(); as currentProduct) {
+	@if (productService.loading()) {
+		<p class="product-status" role="status">Carregando produto...</p>
+	} @else if (productService.error(); as error) {
+		<section class="product-error" role="alert">
+			<p>{{ error }}</p>
+			<button type="button" (click)="loadProducts()">Tentar novamente</button>
+		</section>
+	} @else if (product(); as currentProduct) {
 		<div class="product-details-layout">
 			<section class="product-information" aria-labelledby="product-title">
 				<p class="product-eyebrow">Detalhes do produto</p>

@@ -5,11 +5,15 @@ export const PRODUCT_CATEGORIES = [
   { id: 'wearables', label: 'Vestíveis' },
 ] as const;
 
-export type ProductCategoryId = (typeof PRODUCT_CATEGORIES)[number]['id'];
+export type ProductCategoryId = string;
 
 @Injectable({
   providedIn: 'root',
 })
 export class Category {
   readonly categories = PRODUCT_CATEGORIES;
+
+  labelFor(id: ProductCategoryId): string {
+    return PRODUCT_CATEGORIES.find((category) => category.id === id)?.label ?? id;
+  }
 }

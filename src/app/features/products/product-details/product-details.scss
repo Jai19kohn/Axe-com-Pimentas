@@ -126,6 +126,24 @@
 	border-top: 1px solid var(--details-line);
 }
 
+.product-status,
+.product-error {
+	padding: 1.5rem 0;
+	border-top: 1px solid var(--details-line);
+}
+
+.product-error button {
+	min-height: 2.75rem;
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--details-accent);
+	border-radius: 2px;
+	background: var(--details-accent);
+	color: #fff;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
 .product-not-found p {
 	color: var(--details-muted);
 }

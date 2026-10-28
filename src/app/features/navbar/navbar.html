@@ -8,7 +8,12 @@
   <span class="spacer"></span>
 
   <a matButton routerLink="/">Produtos</a>
-
+  @if (auth.isAuthenticated()) {
+    <a matButton routerLink="/products/new">Cadastrar produto</a>
+    <button matButton type="button" (click)="logout()">Sair</button>
+  } @else {
+    <a matButton routerLink="/admin/login">Área administrativa</a>
+  }
 
   <a matButton routerLink="/cart" aria-label="Abrir carrinho">
     <mat-icon

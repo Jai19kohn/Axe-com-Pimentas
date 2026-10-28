@@ -9,11 +9,20 @@
 			(change)="onCategoryChange($event)"
 		>
 			<option value="">Todas as categorias</option>
-			@for (category of categories; track category.id) {
+			@for (category of categories(); track category.id) {
 				<option [value]="category.id">{{ category.label }}</option>
 			}
 		</select>
 	</label>
 </div>
 
-<app-product-grid [products]="filteredProducts()" (addToCart)="onAddToCart($event)" />
+@if (productService.loading()) {
+	<p class="catalog-status" role="status">Carregando produtos...</p>
+} @else if (productService.error(); as error) {
+	<section class="catalog-error" role="alert">
+		<p>{{ error }}</p>
+		<button type="button" (click)="loadProducts()">Tentar novamente</button>
+	</section>
+} @else {
+	<app-product-grid [products]="filteredProducts()" (addToCart)="onAddToCart($event)" />
+}

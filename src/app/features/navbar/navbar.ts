@@ -4,7 +4,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -14,4 +15,11 @@ import { RouterLink } from '@angular/router';
 })
 export class Navbar {
   protected readonly cart = inject(CartService);
+  protected readonly auth = inject(Auth);
+  private readonly router = inject(Router);
+
+  protected logout(): void {
+    this.auth.logout();
+    void this.router.navigateByUrl('/');
+  }
 }

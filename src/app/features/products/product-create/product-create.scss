@@ -1,0 +1,161 @@
+.product-create {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.product-create__header {
+  margin-bottom: 1.5rem;
+}
+
+.product-create__eyebrow {
+  margin: 0 0 0.35rem;
+  color: #276849;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-create__header h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 5vw, 2.25rem);
+}
+
+.product-create__header > p:last-child {
+  margin: 0.5rem 0 0;
+  color: #56615a;
+}
+
+.product-create__fields {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-field label span {
+  color: #66716a;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #aeb8af;
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+}
+
+.form-field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.form-field input:focus-visible,
+.form-field textarea:focus-visible,
+.form-field select:focus-visible {
+  outline: 2px solid #276849;
+  outline-offset: 1px;
+}
+
+.field-error {
+  color: #a32121;
+  font-weight: 400;
+}
+
+.product-create__success,
+.product-create__error {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 4px;
+}
+
+.product-create__success {
+  background: #e9f4ed;
+  color: #1d573a;
+}
+
+.product-create__success a {
+  margin-left: 0.35rem;
+  color: inherit;
+  font-weight: 700;
+}
+
+.product-create__error {
+  background: #fff0ef;
+  color: #8d1c1c;
+}
+
+.product-create__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.product-create__actions a,
+.product-create__actions button {
+  display: inline-flex;
+  min-height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #276849;
+  border-radius: 4px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.product-create__actions .secondary-action {
+  background: #fff;
+  color: #276849;
+}
+
+.product-create__actions button {
+  background: #276849;
+  color: #fff;
+  cursor: pointer;
+}
+
+.product-create__actions button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .product-create {
+    padding-top: 1.25rem;
+  }
+
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-create__actions {
+    align-items: stretch;
+  }
+}

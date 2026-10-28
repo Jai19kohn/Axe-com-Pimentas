@@ -1,41 +1,59 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Product } from './product';
-
-const MOCK_PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: 'Premium Wireless Headphones',
-    description:
-      'High-quality wireless headphones with noise cancellation and premium sound quality.',
-    price: 199.99,
-    originalPrice: 249.99,
-    categoryId: 'audio',
-  },
-  {
-    id: 2,
-    name: 'Smart Fitness Watch',
-    description:
-      'Track your fitness goals with this advanced smartwatch featuring heart rate monitoring.',
-    price: 299.99,
-    categoryId: 'wearables',
-  },
-  {
-    id: 3,
-    name: 'Portable Bluetooth Speaker',
-    description: 'Compact speaker with powerful bass and 12-hour battery life.',
-    price: 79.99,
-    originalPrice: 99.99,
-    categoryId: 'audio',
-  },
-];
+import { tap } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { Auth } from '../../core/services/auth';
+import { environment } from '../../../environments/environment';
+import type { Product, ProductCreateRequest } from './product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly productsSignal = signal<Product[]>(MOCK_PRODUCTS);
+  private readonly productsSignal = signal<Product[]>([]);
+  private readonly loadingSignal = signal(true);
+  private readonly errorSignal = signal<string | null>(null);
 
   readonly products = this.productsSignal.asReadonly();
+  readonly loading = this.loadingSignal.asReadonly();
+  readonly error = this.errorSignal.asReadonly();
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly auth: Auth,
+  ) {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    this.http.get<Product[]>(`${environment.apiUrl}/products`).subscribe({
+      next: (products) => {
+        this.productsSignal.set(products);
+        this.loadingSignal.set(false);
+      },
+      error: () => {
+        this.errorSignal.set(
+          'Não foi possível carregar os produtos. Verifique sua conexão e tente novamente.',
+        );
+        this.loadingSignal.set(false);
+      },
+    });
+  }
+
+  create(product: ProductCreateRequest): Observable<Product> {
+    return this.http
+      .post<Product>(`${environment.apiUrl}/products`, product, {
+        headers: this.auth.authorizationHeaders(),
+      })
+      .pipe(
+        tap((createdProduct) =>
+          this.productsSignal.update((products) => [...products, createdProduct]),
+        ),
+      );
+  }
 
   /** Usado pela tela de detalhes do produto (product-details). */
   getById(id: number): Product | undefined {

@@ -1,0 +1,116 @@
+<section class="product-create" aria-labelledby="product-create-title">
+  <header class="product-create__header">
+    <p class="product-create__eyebrow">Catálogo</p>
+    <h1 id="product-create-title">Cadastrar produto</h1>
+    <p>Preencha os dados abaixo para adicionar um produto à loja.</p>
+  </header>
+
+  @if (successMessage(); as message) {
+    <p class="product-create__success" role="status">
+      {{ message }} <a routerLink="/">Ver catálogo</a>
+    </p>
+  }
+
+  @if (errorMessage(); as message) {
+    <p class="product-create__error" role="alert">{{ message }}</p>
+  }
+
+  <form [formGroup]="productForm" (ngSubmit)="submit()" novalidate>
+    <div class="product-create__fields">
+      <div class="form-field">
+        <label for="product-name">Nome do produto</label>
+        <input id="product-name" type="text" formControlName="name" maxlength="120" />
+        @if (productForm.controls.name.touched && productForm.controls.name.invalid) {
+          <small class="field-error">Informe o nome do produto (até 120 caracteres).</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="product-description">Descrição</label>
+        <textarea
+          id="product-description"
+          formControlName="description"
+          rows="5"
+          maxlength="2000"
+        ></textarea>
+        @if (productForm.controls.description.touched && productForm.controls.description.invalid) {
+          <small class="field-error">Informe a descrição (até 2.000 caracteres).</small>
+        }
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="product-price">Preço (R$)</label>
+          <input
+            id="product-price"
+            type="number"
+            formControlName="price"
+            min="0.01"
+            step="0.01"
+            inputmode="decimal"
+          />
+          @if (productForm.controls.price.touched && productForm.controls.price.invalid) {
+            <small class="field-error">Informe um preço maior que zero.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="product-original-price">Preço original (R$) <span>opcional</span></label>
+          <input
+            id="product-original-price"
+            type="number"
+            formControlName="originalPrice"
+            min="0.01"
+            step="0.01"
+            inputmode="decimal"
+          />
+          @if (
+            productForm.controls.originalPrice.touched &&
+            productForm.controls.originalPrice.invalid
+          ) {
+            <small class="field-error">O preço original deve ser maior que zero.</small>
+          }
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="product-category">Categoria</label>
+          <input
+            id="product-category"
+            type="text"
+            formControlName="categoryId"
+            maxlength="80"
+            placeholder="Ex.: molhos"
+          />
+          @if (productForm.controls.categoryId.touched && productForm.controls.categoryId.invalid) {
+            <small class="field-error">Informe a categoria do produto.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="product-fulfillment">Disponibilidade</label>
+          <select id="product-fulfillment" formControlName="fulfillmentMode">
+            <option value="">Selecione uma opção</option>
+            <option value="READY_TO_SHIP">Pronta entrega</option>
+            <option value="MADE_TO_ORDER">Feito sob encomenda</option>
+            <option value="CUSTOM">Personalizado</option>
+          </select>
+          @if (
+            productForm.controls.fulfillmentMode.touched &&
+            productForm.controls.fulfillmentMode.invalid
+          ) {
+            <small class="field-error">Selecione a disponibilidade do produto.</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="product-create__actions">
+      <a class="secondary-action" routerLink="/">Cancelar</a>
+      <button type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Cadastrando...' : 'Cadastrar produto' }}
+      </button>
+    </div>
+  </form>
+</section>
